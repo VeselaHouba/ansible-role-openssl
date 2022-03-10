@@ -1,4 +1,12 @@
 ---
+- name: Make sure dir certs is present
+  file:
+    path: "{{ openssl_cert_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Get cert CN
   set_fact:
     _crt_cn: "{{ hostvars[openssl_machine]['openssl_cert_cn']|default(hostvars[openssl_machine]['ansible_fqdn']) }}"

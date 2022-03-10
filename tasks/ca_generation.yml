@@ -5,14 +5,11 @@
 
 - name: Make sure dirs for CA are present
   file:
-    path: "{{ item }}"
+    path: "{{ openssl_ca_path }}"
     state: directory
     owner: root
     group: root
     mode: 0700
-  with_items:
-    - "{{ openssl_ca_path }}"
-    - "{{ openssl_cert_path }}"
 
 - name: "CA: Generate Diffie-Hellman parameters"
   community.crypto.openssl_dhparam:
