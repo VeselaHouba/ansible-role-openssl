@@ -1,0 +1,18 @@
+---
+dependencies: []
+galaxy_info:
+  role_name: openssl
+  namespace: veselahouba
+  author: Jan Michalek
+  license: license (BSD, MIT)
+  description: OpenSSL CA generating & management
+  min_ansible_version: 2.8
+  platforms:
+    - name: Debian
+      versions:
+        - stretch
+        - buster
+    - name: Ubuntu
+      versions:
+        - bionic
+        - focal

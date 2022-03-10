@@ -1,0 +1,20 @@
+---
+# Shared variables
+openssl_cert_path: /opt/ssl/certificates
+# CA will be generated on this hosts
+openssl_ca_controller: your_CA_controller_inventory_hostname
+# sign all machines which are members of following group
+openssl_cert_group: all
+
+# CA Controller
+openssl_ca_path: /opt/ssl/ca
+openssl_ca_cn: My Company Certification Authority
+openssl_ca_pass: password
+openssl_ca_crt: "{{ openssl_ca_path }}/ca.crt"
+openssl_ca_key: "{{ openssl_ca_path }}/ca.key"
+openssl_ca_csr: "{{ openssl_ca_path }}/ca.csr"
+openssl_ca_dh: "{{ openssl_ca_path }}/dh.pem"
+openssl_dh_size: 2048
+
+# Signed machines
+openssl_cert_cn: "{{ ansible_fqdn }}"

@@ -1,0 +1,24 @@
+---
+- block:
+    - name: Check that CA exists
+      stat:
+        path: "{{ openssl_ca_crt }}"
+      register: ca_result
+
+    - name: Configure CA
+      include_tasks: ca_generation.yml
+      when:
+        - not ca_result.stat.exists
+
+    - name: Sign machines with CA
+      include_tasks: sign_with_ca.yml
+      with_inventory_hostnames:
+        - "{{ openssl_cert_group }}"
+      loop_control:
+        loop_var: openssl_machine
+        label: "{{ openssl_machine }}"
+
+  when: inventory_hostname == openssl_ca_controller
+
+- name: Deploy certs to machines
+  include_tasks: configure_machine.yml

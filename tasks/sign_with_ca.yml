@@ -1,0 +1,22 @@
+---
+- name: Get cert CN
+  set_fact:
+    _crt_cn: "{{ hostvars[openssl_machine]['openssl_cert_cn']|default(hostvars[openssl_machine]['ansible_fqdn']) }}"
+- name: Generate private key for {{ _crt_cn }}
+  community.crypto.openssl_privatekey:
+    path: "{{ openssl_cert_path }}/{{ openssl_machine }}.key"
+
+- name: Generate CSR for {{ _crt_cn }}
+  community.crypto.openssl_csr:
+    path: "{{ openssl_cert_path }}/{{ openssl_machine }}.csr"
+    privatekey_path: "{{ openssl_cert_path }}/{{ openssl_machine }}.key"
+    common_name: "{{ _crt_cn }}"
+
+- name: Sign {{ _crt_cn }} with CA
+  community.crypto.x509_certificate:
+    path: "{{ openssl_cert_path }}/{{ openssl_machine }}.crt"
+    csr_path: "{{ openssl_cert_path }}/{{ openssl_machine }}.csr"
+    ownca_path: "{{ openssl_ca_crt }}"
+    ownca_privatekey_path: "{{ openssl_ca_key }}"
+    ownca_privatekey_passphrase: "{{ openssl_ca_pass }}"
+    provider: ownca

@@ -1,0 +1,42 @@
+---
+- name: Install dependencies
+  apt:
+    name: python3-cryptography
+
+- name: Make sure dirs for CA are present
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  with_items:
+    - "{{ openssl_ca_path }}"
+    - "{{ openssl_cert_path }}"
+
+- name: "CA: Generate Diffie-Hellman parameters"
+  community.crypto.openssl_dhparam:
+    path: "{{ openssl_ca_dh }}"
+    size: "{{ openssl_dh_size }}"
+
+- name: "CA: Generate the private key"
+  community.crypto.openssl_privatekey:
+    path: "{{ openssl_ca_key }}"
+    passphrase: "{{ openssl_ca_pass|default(omit) }}"
+    cipher: auto
+
+- name: "CA: Generate CSR"
+  community.crypto.openssl_csr:
+    path: "{{ openssl_ca_csr }}"
+    privatekey_path: "{{ openssl_ca_key }}"
+    privatekey_passphrase: "{{ openssl_ca_pass|default(omit) }}"
+    common_name: "{{ openssl_ca_cn }}"
+    basic_constraints: 'CA:TRUE'
+
+- name: "CA: Self-sign"
+  community.crypto.x509_certificate:
+    path: "{{ openssl_ca_crt }}"
+    privatekey_path: "{{ openssl_ca_key }}"
+    privatekey_passphrase: "{{ openssl_ca_pass|default(omit) }}"
+    csr_path: "{{ openssl_ca_csr }}"
+    provider: selfsigned
