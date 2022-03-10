@@ -17,8 +17,10 @@
       loop_control:
         loop_var: openssl_machine
         label: "{{ openssl_machine }}"
+      when: openssl_machine in ansible_play_hosts
 
   when: inventory_hostname == openssl_ca_controller
 
 - name: Deploy certs to machines
   include_tasks: configure_machine.yml
+  when: openssl_ca_controller in ansible_play_hosts
