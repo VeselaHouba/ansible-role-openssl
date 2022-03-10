@@ -46,13 +46,13 @@ node02
   roles:
     - veselahouba.openssl
   vars:
-    openssl_ca_controller: ca
+    openssl_ca_controller: ca01
     openssl_cert_group: ssl_hosts
 ```
 
 Results in
 - CA deployed to `/opt/ssl/` on `ca01` host
-- Certs for `node01` and `node02` signed and saved on `ca` (including keys)
+- Certs for `node01` and `node02` signed and saved on `ca01` (including keys)
 - Certs for `node01` and `node02` deployed to `/opt/ssl/certificates` on respective machines.
 - CA public part deployed to `/opt/ssl/certificates/ca.crt` on node01/node02. So it's not best idea to call your CA host `ca` ;)
 
