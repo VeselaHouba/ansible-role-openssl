@@ -17,6 +17,7 @@
       loop_control:
         loop_var: openssl_machine
         label: "{{ openssl_machine }}"
+      when: openssl_machine in ansible_play_hosts
 
   when: inventory_hostname == openssl_ca_controller
 
