@@ -13,6 +13,7 @@
 - name: Generate private key for {{ _crt_cn }}
   community.crypto.openssl_privatekey:
     path: "{{ openssl_cert_path }}/{{ openssl_machine }}.key"
+    format: "{{ openssl_cert_keyformat }}"
 
 - name: Generate CSR for {{ _crt_cn }}
   community.crypto.openssl_csr:

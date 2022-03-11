@@ -18,3 +18,5 @@ openssl_dh_size: 2048
 
 # Signed machines
 openssl_cert_cn: "{{ ansible_fqdn }}"
+# Key format for signed keys
+openssl_cert_keyformat: auto_ignore
