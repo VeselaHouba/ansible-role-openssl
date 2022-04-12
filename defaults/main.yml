@@ -20,3 +20,11 @@ openssl_dh_size: 2048
 openssl_cert_cn: "{{ ansible_fqdn }}"
 # Key format for signed keys
 openssl_cert_keyformat: auto_ignore
+
+# custom rights on deployed files
+openssl_deploy_cert_rights:
+  owner: root
+  group: root
+  cert: '644'
+  ca: '644'
+  key: '600'
