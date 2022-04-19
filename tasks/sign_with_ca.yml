@@ -1,5 +1,5 @@
 ---
-- name: Make sure dir certs is present
+- name: Make sure dir for certs is present
   file:
     path: "{{ openssl_cert_path }}"
     state: directory
